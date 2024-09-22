@@ -1,17 +1,27 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import "./style.scss";
 
 function MainPage() {
+  const x = useMotionValue(0);
+  const backgroundColor = useTransform(x, [-100, 100], ["#ff008c", "#7700ff"]);
+
   return (
-    <motion.div
-      whileHover={{ scale: 1.2 }}
-      whileTap={{ scale: 1.1 }}
-      transition={{ duration: 1 }}
-      dragConstraints={{ left: -100, right: 100 }}
-      className="animatedBlock"
-    >
-      <p>Hello world! I am here</p>
-    </motion.div>
+    <>
+      <div className="hWrapper">
+        <h2>
+          This text is
+          <div className="wrapper">
+            <div className="container">
+              <div className="item item1">amazing</div>
+              <div className="item item2">stunning</div>
+              <div className="item item3">fantastic</div>
+              <div className="item item4">amazing</div>
+            </div>
+          </div>
+          and this is why You will like it!
+        </h2>
+      </div>
+    </>
   );
 }
 
