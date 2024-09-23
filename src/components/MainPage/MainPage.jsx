@@ -2,16 +2,30 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import "./style.scss";
 import Tesla from "../Images/Tesla.png";
 import Globe from "../Globe/Globe";
+import { useRef, useEffect } from "react";
 
 function MainPage() {
   const x = useMotionValue(0);
   const backgroundColor = useTransform(x, [-100, 100], ["#ff008c", "#7700ff"]);
+  const ThreeDtextBlock = useRef(null);
+
+  useEffect(() => {
+    let shadow = "";
+
+    for (let i = 0; i < 30; i++) {
+      shadow += (shadow ? "," : "") - i * 1 + "px" + i * 1 + "px 0 #01ded3";
+    }
+
+    if (ThreeDtextBlock.current) {
+      ThreeDtextBlock.current.style.textShadow = shadow;
+    }
+  }, []);
 
   return (
     <>
       <div className="grid grid-cols-[1fr_4fr_1fr] justify-center pt-40">
         <motion.div
-          className="hWrapper col-start-2 h-full h-96 flex justify-between items-center"
+          className="hWrapper col-start-2 h-96 flex justify-between items-center"
           grid-col
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -61,10 +75,26 @@ function MainPage() {
               </div>
             </div>
           </div>
-          <div>
-            <p>hjjwhbcbwjhbce</p>
+          <div className="grid grid-cols-[1fr_1fr] py-20 border-dotted border-b-2">
+            <div className="text-[150px] font-bold text-gray-200 col-start-1 flex justify-start leading-none">
+              <p>Why Choose Us?</p>
+            </div>
+            <div className="col-start-2 flex justify-center items-center">
+              <p>Beautiful Image</p>
+            </div>
           </div>
         </motion.div>
+        <div className="grid col-start-2">
+          <div>
+            <p>A</p>
+          </div>
+          <div>
+            <p>B</p>
+          </div>
+          <div>
+            <p>C</p>
+          </div>
+        </div>
       </div>
     </>
   );
