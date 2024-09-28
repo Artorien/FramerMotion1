@@ -5,8 +5,11 @@ import WhyUs from "../Images/whyUs.jpg";
 import Globe from "../Globe/Globe";
 import GoodReviews from "../Images/goodReviews.jpg";
 import ExtendedContracts from "../Images/extended.jpg";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import SaveMoney from "../Images/saveMoney.jpg";
+import Card from "../Card/Card";
+
+export const IsVisibleContext = createContext();
 
 function MainPage() {
   const x = useMotionValue(0);
@@ -14,27 +17,34 @@ function MainPage() {
   const [reviews, setReviews] = useState(0);
   const [extendedContracts, setExtendedContracts] = useState(0);
   const [offset, setOffset] = useState(472);
+  const [isVisible, setIsVisible] = useState(false);
+
+  console.log(isVisible);
 
   useEffect(() => {
-    if (reviews < 45638) {
-      const interval = setInterval(() => {
-        setReviews((prevReview) => Math.min(prevReview + 100, 45638));
-      }, 1);
+    if (isVisible) {
+      if (reviews < 45638) {
+        const interval = setInterval(() => {
+          setReviews((prevReview) => Math.min(prevReview + 100, 45638));
+        }, 1);
 
-      return () => clearInterval(interval);
+        return () => clearInterval(interval);
+      }
     }
-  }, [reviews]);
+  }, [reviews, isVisible]);
 
   useEffect(() => {
-    if (extendedContracts < 93) {
-      const interval = setInterval(() => {
-        setExtendedContracts((prevContracts) => prevContracts + 1);
-        setOffset((prevOffset) => Math.max(prevOffset - 4, 80));
-      }, 12);
+    if (isVisible) {
+      if (extendedContracts < 93) {
+        const interval = setInterval(() => {
+          setExtendedContracts((prevContracts) => prevContracts + 1);
+          setOffset((prevOffset) => Math.max(prevOffset - 4, 80));
+        }, 12);
 
-      return () => clearInterval(interval);
+        return () => clearInterval(interval);
+      }
     }
-  }, [extendedContracts]);
+  }, [extendedContracts, isVisible]);
 
   return (
     <>
@@ -100,47 +110,32 @@ function MainPage() {
           </div>
         </div>
         <div className="grid grid-cols-[1fr_1fr_1fr] justify-center gap-32 mt-[8rem] col-start-2">
-          <div className="flex flex-col rounded-2xl reviews items-center justify-center px-[20px] py-[40px] text-3xl text-center">
-            <p>
-              We received
-              <br />
-            </p>
-            <span className="text-5xl py-[20px] text-slate-800">{reviews}</span>
-            <p className="text-3xl pb-[10px]">positive reviews.</p>
-            <img src={GoodReviews}></img>
-          </div>
-          <div className="flex rounded-2xl reviews items-center px-[20px] py-[40px] text-3xl text-center flex-col">
-            <p className="pb-[20px] text-3xl">We extended</p>
-            <div className="relative w-[160px] h-[160px] p-[20px] rounded-full outer">
-              <div className="w-[120px] h-[120px] rounded-full inner fill-none flex justify-center items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  version="1.1"
-                  width="160px"
-                  height="160px"
-                  className="absolute top-0 left-0 stroke-slate-800 stroke-[20px] circle"
-                  style={{ strokeDashoffset: offset }}
-                >
-                  <defs>
-                    <linearGradient id="GradientColor">
-                      <stop offset="0%" stopColor="#e91e63" />
-                      <stop offset="100%" stopColor="#673ab7" />
-                    </linearGradient>
-                  </defs>
-                  <circle cx="80" cy="80" r="70" strokeLinecap="round" />
-                </svg>
-                <p>{extendedContracts}%</p>
-              </div>
-            </div>
-            <p className="py-[20px] text-3xl">of our contracts</p>
-            <img src={ExtendedContracts}></img>
-          </div>
-          <div className="flex rounded-2xl reviews px-[20px] items-center py-[40px] text-3xl text-center flex-col">
-            <p className="pb-[20px] text-3xl">We give You</p>
-            <p className="text-5xl text-slate-800">35%</p>
-            <p className="py-[20px] text-3xl">Discount on first payment</p>
-            <img className="w-[90%]" src={SaveMoney}></img>
-          </div>
+          <IsVisibleContext.Provider value={{ isVisible, setIsVisible }}>
+            <Card
+              delay={0}
+              image={GoodReviews}
+              type={"number"}
+              text1={"We received"}
+              text2={"positive reviews"}
+              data={reviews}
+            />
+            <Card
+              delay={0.5}
+              image={ExtendedContracts}
+              type={"circle"}
+              text1={"We extended"}
+              text2={"of our contracts"}
+              offset={offset}
+              data={extendedContracts}
+            />
+            <Card
+              delay={1}
+              image={SaveMoney}
+              type={"discount"}
+              text1={"We give You"}
+              text2={"Discount on first payment"}
+            />
+          </IsVisibleContext.Provider>
         </div>
       </div>
     </>
