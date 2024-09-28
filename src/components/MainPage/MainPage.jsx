@@ -1,25 +1,40 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import "./style.scss";
 import Tesla from "../Images/Tesla.png";
+import WhyUs from "../Images/whyUs.jpg";
 import Globe from "../Globe/Globe";
-import { useRef, useEffect } from "react";
+import GoodReviews from "../Images/goodReviews.jpg";
+import ExtendedContracts from "../Images/extended.jpg";
+import { useEffect, useState } from "react";
+import SaveMoney from "../Images/saveMoney.jpg";
 
 function MainPage() {
   const x = useMotionValue(0);
   const backgroundColor = useTransform(x, [-100, 100], ["#ff008c", "#7700ff"]);
-  const ThreeDtextBlock = useRef(null);
+  const [reviews, setReviews] = useState(0);
+  const [extendedContracts, setExtendedContracts] = useState(0);
+  const [offset, setOffset] = useState(472);
 
   useEffect(() => {
-    let shadow = "";
+    if (reviews < 45638) {
+      const interval = setInterval(() => {
+        setReviews((prevReview) => Math.min(prevReview + 100, 45638));
+      }, 1);
 
-    for (let i = 0; i < 30; i++) {
-      shadow += (shadow ? "," : "") - i * 1 + "px" + i * 1 + "px 0 #01ded3";
+      return () => clearInterval(interval);
     }
+  }, [reviews]);
 
-    if (ThreeDtextBlock.current) {
-      ThreeDtextBlock.current.style.textShadow = shadow;
+  useEffect(() => {
+    if (extendedContracts < 93) {
+      const interval = setInterval(() => {
+        setExtendedContracts((prevContracts) => prevContracts + 1);
+        setOffset((prevOffset) => Math.max(prevOffset - 4, 80));
+      }, 12);
+
+      return () => clearInterval(interval);
     }
-  }, []);
+  }, [extendedContracts]);
 
   return (
     <>
@@ -53,12 +68,12 @@ function MainPage() {
           </div>
         </motion.div>
         <motion.div
-          className="col-start-2 h-96 py-8 aboutUsContainer mt-28 rounded-xl pt-20"
+          className="col-start-2 aboutUsContainer mt-28 rounded-xl pt-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <div className="grid grid-cols-[1fr_1fr] border-dotted border-b-2 pb-20">
+          <div className="grid grid-cols-[1fr_1fr] pb-20">
             <div className="col-start-1 border-r-2 flex justify-center">
               <Globe></Globe>
             </div>
@@ -75,24 +90,56 @@ function MainPage() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-[1fr_1fr] py-20 border-dotted border-b-2">
-            <div className="text-[150px] font-bold text-gray-200 col-start-1 flex justify-start leading-none">
-              <p>Why Choose Us?</p>
-            </div>
-            <div className="col-start-2 flex justify-center items-center">
-              <p>Beautiful Image</p>
-            </div>
-          </div>
         </motion.div>
-        <div className="grid col-start-2">
-          <div>
-            <p>A</p>
+        <div className="grid col-start-2 grid-cols-[1fr_1fr] py-20 border-dotted border-y-2">
+          <div className="text-[150px] font-bold text-gray-200 col-start-1 flex justify-start leading-none">
+            <p className="">Why Choose Us?</p>
           </div>
-          <div>
-            <p>B</p>
+          <div className="col-start-2 flex justify-center items-center">
+            <img className="w-[30rem]" src={WhyUs}></img>
           </div>
-          <div>
-            <p>C</p>
+        </div>
+        <div className="grid grid-cols-[1fr_1fr_1fr] justify-center gap-32 mt-[8rem] col-start-2">
+          <div className="flex flex-col rounded-2xl reviews items-center justify-center px-[20px] py-[40px] text-3xl text-center">
+            <p>
+              We received
+              <br />
+            </p>
+            <span className="text-5xl py-[20px] text-slate-800">{reviews}</span>
+            <p className="text-3xl pb-[10px]">positive reviews.</p>
+            <img src={GoodReviews}></img>
+          </div>
+          <div className="flex rounded-2xl reviews items-center px-[20px] py-[40px] text-3xl text-center flex-col">
+            <p className="pb-[20px] text-3xl">We extended</p>
+            <div className="relative w-[160px] h-[160px] p-[20px] rounded-full outer">
+              <div className="w-[120px] h-[120px] rounded-full inner fill-none flex justify-center items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  width="160px"
+                  height="160px"
+                  className="absolute top-0 left-0 stroke-slate-800 stroke-[20px] circle"
+                  style={{ strokeDashoffset: offset }}
+                >
+                  <defs>
+                    <linearGradient id="GradientColor">
+                      <stop offset="0%" stopColor="#e91e63" />
+                      <stop offset="100%" stopColor="#673ab7" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="80" cy="80" r="70" strokeLinecap="round" />
+                </svg>
+                <p>{extendedContracts}%</p>
+              </div>
+            </div>
+            <p className="py-[20px] text-3xl">of our contracts</p>
+            <img src={ExtendedContracts}></img>
+          </div>
+          <div className="flex rounded-2xl reviews px-[20px] items-center py-[40px] text-3xl text-center flex-col">
+            <p className="pb-[20px] text-3xl">We give You</p>
+            <p className="text-5xl text-slate-800">35%</p>
+            <p className="py-[20px] text-3xl">Discount on first payment</p>
+            <img className="w-[90%]" src={SaveMoney}></img>
           </div>
         </div>
       </div>
