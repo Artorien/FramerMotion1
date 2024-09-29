@@ -8,6 +8,7 @@ import ExtendedContracts from "../Images/extended.jpg";
 import { createContext, useEffect, useState } from "react";
 import SaveMoney from "../Images/saveMoney.jpg";
 import Card from "../Card/Card";
+import Slider from "../Slider/Slider";
 
 export const IsVisibleContext = createContext();
 
@@ -18,8 +19,6 @@ function MainPage() {
   const [extendedContracts, setExtendedContracts] = useState(0);
   const [offset, setOffset] = useState(472);
   const [isVisible, setIsVisible] = useState(false);
-
-  console.log(isVisible);
 
   useEffect(() => {
     if (isVisible) {
@@ -48,7 +47,7 @@ function MainPage() {
 
   return (
     <>
-      <div className="grid grid-cols-[1fr_4fr_1fr] justify-center pt-40">
+      <div className="grid grid-cols-[1fr_4fr_1fr] justify-center pt-40 overflow-hidden">
         <motion.div
           className="hWrapper col-start-2 h-96 flex justify-between items-center"
           grid-col
@@ -109,7 +108,7 @@ function MainPage() {
             <img className="w-[30rem]" src={WhyUs}></img>
           </div>
         </div>
-        <div className="grid grid-cols-[1fr_1fr_1fr] justify-center gap-32 mt-[8rem] col-start-2">
+        <div className="grid grid-cols-[1fr_1fr_1fr] justify-center gap-32 mt-[8rem] pb-[8rem] overflow-hidden; border-dotted border-b-2 col-start-2">
           <IsVisibleContext.Provider value={{ isVisible, setIsVisible }}>
             <Card
               delay={0}
@@ -136,6 +135,13 @@ function MainPage() {
               text2={"Discount on first payment"}
             />
           </IsVisibleContext.Provider>
+        </div>
+        <div className="col-start-2 h-96 relative flex justify-center items-center flex-col my-[8rem]">
+          <h1 className="text-5xl">Newly arrived</h1>
+          <p className="mt-[10px]">Take a look at new models which are available for You</p>
+          <div className="relative w-full h-full">
+            <Slider></Slider>
+          </div>
         </div>
       </div>
     </>

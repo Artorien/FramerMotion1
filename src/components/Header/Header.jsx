@@ -19,7 +19,7 @@ function Header() {
     <>
       <nav className="grid grid-cols-[1fr_4fr_1fr] w-full text-lg py-5 fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm z-10 border-dotted border-b-2">
         <div className="flex justify-between items-center col-start-2">
-          <h1 className="text-5xl">Rento</h1>
+          <h1 className="text-5xl headerH">Rento</h1>
           <div className="flex">
             <ul className="flex justify-between">
               <li className="border-r border-black-500 pr-3">

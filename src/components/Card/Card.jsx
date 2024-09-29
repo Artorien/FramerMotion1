@@ -37,7 +37,7 @@ function Card(properties) {
     >
       <p className="pb-[20px] text-3xl">{properties.text1}</p>
       {properties.type == "circle" ? (
-        <div className="relative w-[160px] h-[160px] p-[20px] rounded-full outer">
+        <div className="relative w-[160px] h-[160px] p-[20px] rounded-full outer my-[20px]">
           <div className="w-[120px] h-[120px] rounded-full inner fill-none flex justify-center items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ function Card(properties) {
           {properties.data}
         </span>
       ) : (
-        <p className="text-5xl text-slate-800">35%</p>
+        <p className="text-5xl text-slate-800 my-[20px]">35%</p>
       )}
       <p className="py-[20px] text-3xl">{properties.text2}</p>
       {properties.type == "discount" ? (
