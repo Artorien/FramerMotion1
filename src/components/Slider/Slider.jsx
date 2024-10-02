@@ -51,7 +51,7 @@ function Slider() {
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={1}
-          className="w-full absolute flex justify-center items-center flex-col p-[40px]"
+          className="w-full absolute flex justify-center items-center flex-col p-[40px] z-0"
           onDragEnd={(e, { offset, velocity }) => {
             const swipe = swipePower(offset.x, velocity.x);
             if (swipe < -swipeConfidence) {
@@ -61,7 +61,7 @@ function Slider() {
             }
           }}
         >
-          <div className="w-[900px] h-auto overflow-hidden flex">
+          <div className="w-[900px] h-auto overflow-hidden flex z-0">
             <img
               className="w-full h-full object-cover"
               src={imagesArray[imageIndex]}
@@ -73,7 +73,7 @@ function Slider() {
         </motion.div>
       </AnimatePresence>
       <div
-        className="absolute top-[50%] right-[10px] z-[2] next"
+        className="absolute top-[50%] right-[10px] next z-4"
         onClick={() => paginate(1)}
       >
         <svg
@@ -92,7 +92,7 @@ function Slider() {
         </svg>
       </div>
       <div
-        className="absolute top-[50%] left-[10px] z-[2] prev"
+        className="absolute top-[50%] left-[10px] prev z-4"
         onClick={() => paginate(-1)}
       >
         <svg

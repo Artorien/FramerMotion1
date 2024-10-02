@@ -1,14 +1,10 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import "./style.scss";
-import Tesla from "../Images/Tesla.png";
-import WhyUs from "../Images/whyUs.jpg";
 import Globe from "../Globe/Globe";
-import GoodReviews from "../Images/goodReviews.jpg";
-import ExtendedContracts from "../Images/extended.jpg";
-import { createContext, useEffect, useState } from "react";
-import SaveMoney from "../Images/saveMoney.jpg";
+import { createContext, useEffect, useRef, useState } from "react";
 import Card from "../Card/Card";
 import Slider from "../Slider/Slider";
+import ReviewSection from "../ReviewSection/ReviewSection";
 
 export const IsVisibleContext = createContext();
 
@@ -19,6 +15,8 @@ function MainPage() {
   const [extendedContracts, setExtendedContracts] = useState(0);
   const [offset, setOffset] = useState(472);
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleSlider, setIsVisibleSlider] = useState(false);
+  const slider = useRef(null);
 
   useEffect(() => {
     if (isVisible) {
@@ -44,6 +42,29 @@ function MainPage() {
       }
     }
   }, [extendedContracts, isVisible]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisibleSlider(true);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (slider.current) {
+      observer.observe(slider.current);
+    }
+
+    return () => {
+      if (slider.current) {
+        observer.unobserve(slider.current);
+      }
+    };
+  });
 
   return (
     <>
@@ -72,7 +93,7 @@ function MainPage() {
           <div className="w-9/12 h-full overflow-hidden relative">
             <img
               className="w-full object-cover right-[-32px] absolute top-0"
-              src={Tesla}
+              src="/images/Tesla.webp"
             ></img>
           </div>
         </motion.div>
@@ -105,14 +126,14 @@ function MainPage() {
             <p className="">Why Choose Us?</p>
           </div>
           <div className="col-start-2 flex justify-center items-center">
-            <img className="w-[30rem]" src={WhyUs}></img>
+            <img className="w-[30rem]" src="/images/whyUs.webp"></img>
           </div>
         </div>
         <div className="grid grid-cols-[1fr_1fr_1fr] justify-center gap-32 mt-[8rem] pb-[8rem] overflow-hidden; border-dotted border-b-2 col-start-2">
           <IsVisibleContext.Provider value={{ isVisible, setIsVisible }}>
             <Card
               delay={0}
-              image={GoodReviews}
+              image="/images/goodReviews.webp"
               type={"number"}
               text1={"We received"}
               text2={"positive reviews"}
@@ -120,7 +141,7 @@ function MainPage() {
             />
             <Card
               delay={0.5}
-              image={ExtendedContracts}
+              image="/images/extended.webp"
               type={"circle"}
               text1={"We extended"}
               text2={"of our contracts"}
@@ -129,20 +150,33 @@ function MainPage() {
             />
             <Card
               delay={1}
-              image={SaveMoney}
+              image="/images/saveMoney.webp"
               type={"discount"}
               text1={"We give You"}
               text2={"Discount on first payment"}
             />
           </IsVisibleContext.Provider>
         </div>
-        <div className="col-start-2 h-96 relative flex justify-center items-center flex-col my-[8rem]">
+        <motion.div
+          className="col-start-2 h-96 relative flex justify-center items-center flex-col my-[8rem]"
+          initial={{ opacity: 0, y: 50 }}
+          animate={
+            isVisibleSlider ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
+          }
+          transition={{ duration: 1 }}
+          ref={slider}
+        >
           <h1 className="text-5xl">Newly arrived</h1>
-          <p className="mt-[10px]">Take a look at new models which are available for You</p>
+          <p className="mt-[10px]">
+            Take a look at new models which are available for You
+          </p>
           <div className="relative w-full h-full">
             <Slider></Slider>
           </div>
-        </div>
+        </motion.div>
+        <motion.div className="col-start-2 flex flex-col h-96">
+          <ReviewSection></ReviewSection>
+        </motion.div>
       </div>
     </>
   );
