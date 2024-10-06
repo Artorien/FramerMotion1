@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <>
-      <div>
+      <div className="flex justify-evenly pb-[30px]">
         <ul>
           <li>
             <a href="/">Reviews</a>
@@ -13,7 +13,7 @@ function Footer() {
             <a href="/">About Us</a>
           </li>
         </ul>
-        <ul>
+        <ul className="flex items-center justify-evenly w-[110px]">
           <li>
             <svg
               xmlns="http://www.w3.org/2000/svg"
