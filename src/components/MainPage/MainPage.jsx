@@ -174,7 +174,7 @@ function MainPage() {
             <Slider></Slider>
           </div>
         </motion.div>
-        <motion.div className="col-start-2 flex flex-col h-96">
+        <motion.div className="col-start-2 flex-grow flex-shrink relative my-[8rem] px-[200px]">
           <ReviewSection></ReviewSection>
         </motion.div>
       </div>
